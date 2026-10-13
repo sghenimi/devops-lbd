@@ -7,7 +7,9 @@ authors = [
     { email = "soufiane.ghenimi@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pytest>=9.1.1",
+]
 
 [project.scripts]
 devops-lbd = "devops_lbd:main"
