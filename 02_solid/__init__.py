@@ -1,0 +1,1 @@
+# some code from https://dev.to/mcheremnov/solid-principles-for-python-developers-55g7
