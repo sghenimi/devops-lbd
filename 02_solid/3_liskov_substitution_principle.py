@@ -75,4 +75,43 @@ penguin = Penguin()
 make_bird_move(sparrow)  # Sparrow flying
 make_bird_move(penguin)  # Penguin swimming
 
+from abc import ABC, abstractmethod
+
+class Bird(ABC):
+    @abstractmethod
+    def move(self):
+        pass
+
+class FlyingBird(Bird):
+    def move(self):
+        self.fly()
+
+    def fly(self):
+        print("Flying")
+
+class SwimmingBird(Bird):
+    def move(self):
+        self.swim()
+
+    def swim(self):
+        print("Swimming")
+
+class Sparrow(FlyingBird):
+    def fly(self):
+        print("Sparrow flying")
+
+class Penguin(SwimmingBird):
+    def swim(self):
+        print("Penguin swimming")
+
+def make_bird_move(bird: Bird):
+    bird.move()
+
+# Usage
+sparrow = Sparrow()
+penguin = Penguin()
+
+make_bird_move(sparrow)  # Sparrow flying
+make_bird_move(penguin)  # Penguin swimming
+
 
