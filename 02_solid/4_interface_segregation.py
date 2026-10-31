@@ -1,47 +1,87 @@
+from abc import ABC, abstractmethod
 #Principe de ségrégation des interfaces :
 # Il vaut mieux avoir plusieurs interfaces spécifiques que une seule interface générale.
 
 class Worker:
+    @abstractmethod
     def work(self):
         pass
+
+    @abstractmethod
     def eat(self):
         pass
 
-class Robot:
+    @abstractmethod
+    def sleep(self):
+        pass
+
+class Human(Worker):
+    def work(self):
+        print("Human working")
+
+    def eat(self):
+        print("Human eating")
+
+    def sleep(self):
+        print("Human sleeping")
+
+class Robot(Worker):
+    def work(self):
+        print("Robot working")
+
+    def eat(self):
+        # Robots don't eat!
+        raise NotImplementedError("Robots don't eat")
+
+    def sleep(self):
+        # Robots don't sleep!
+        raise NotImplementedError("Robots don't sleep")
+
+# Problems: Robot is forced to implement methods it doesn't need.
+# Créer deux interfaces :
+from abc import ABC, abstractmethod
+
+class Workable(ABC):
+    @abstractmethod
     def work(self):
         pass
-    def eat(self):## ??? un robot ne mande pas
+
+class Eatable(ABC):
+    @abstractmethod
+    def eat(self):
         pass
 
-# Si un robot n’a pas besoin de eat(), il ne doit pas implémenter cette méthode.
-# Créer deux interfaces :
-class Workable:
-    def work(self) -> None:
-        ...
-
-
-class Feedable:
-    def eat(self) -> None:
-        ...
-
-
-class Restable:
-    def sleep(self) -> None:
-        ...
-
-
-class Human(Workable, Feedable, Restable):
-    def work(self) -> None:
+class Sleepable(ABC):
+    @abstractmethod
+    def sleep(self):
         pass
 
-    def eat(self) -> None:
-        pass
+class Human(Workable, Eatable, Sleepable):
+    def work(self):
+        print("Human working")
 
-    def sleep(self) -> None:
-        pass
+    def eat(self):
+        print("Human eating")
 
+    def sleep(self):
+        print("Human sleeping")
 
 class Robot(Workable):
-    def work(self) -> None:
-        pass
+    def work(self):
+        print("Robot working")
 
+# Usage
+def manage_worker(worker: Workable):
+    worker.work()
+
+def feed_worker(worker: Eatable):
+    worker.eat()
+
+human = Human()
+robot = Robot()
+
+manage_worker(human)  # Works
+manage_worker(robot)  # Works
+
+feed_worker(human)    # Works
+feed_worker(robot)  # Won't compile - Robot doesn't implement Eatable
